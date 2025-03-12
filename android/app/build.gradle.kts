@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.chandra.audio_player.audio_player"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 33
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -24,8 +24,8 @@ android {
         applicationId = "com.chandra.audio_player.audio_player"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 24
+        targetSdk = 31
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

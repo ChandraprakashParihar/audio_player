@@ -9,6 +9,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   late PlayerController _playerController;
   String? _audioPath;
   StreamSubscription<int>? _positionSubscription;
+  bool isCompleted = false;
 
   PlayerBloc() : super(PlayerInitial()) {
     _playerController = PlayerController();
@@ -29,7 +30,14 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     });
 
     on<PlayPauseAudio>((event, emit) async {
-      if (state is PlayerPlaying) {
+      if (isCompleted) {
+        isCompleted = false;
+        await _playerController.preparePlayer(path: _audioPath!);
+        await _playerController.startPlayer();
+        emit(
+          PlayerPlaying(_playerController, 0, _playerController.maxDuration),
+        );
+      } else if (state is PlayerPlaying) {
         await _playerController.pausePlayer();
         emit(PlayerPaused(_playerController, state.position, state.duration));
       } else {
@@ -49,6 +57,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     });
 
     on<PlayerCompleted>((event, emit) {
+      isCompleted = true;
       _playerController.seekTo(0);
       emit(PlayerStopped(_playerController, 0, _playerController.maxDuration));
     });
@@ -71,7 +80,3 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     return super.close();
   }
 }
-
-
-
-

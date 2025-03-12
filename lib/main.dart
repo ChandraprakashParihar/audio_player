@@ -23,6 +23,7 @@ class AudioPlayerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Audio Player',
       themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
